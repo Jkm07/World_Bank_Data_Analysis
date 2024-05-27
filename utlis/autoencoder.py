@@ -116,5 +116,6 @@ def get_enoder_cluster(model, X, Y):
     kmeans = KMeans(n_clusters=10, init='k-means++', n_init=10, random_state=42)
     kmeans.fit(X_encoded)
     result = pd.Series(data=kmeans.labels_, index=Y)
+    result.name = 'Cluster'
     result.index.name = 'Country Name'
     return result

@@ -59,12 +59,15 @@ def plot_pca(df, labels, columns, title, scale = 1):
     plt.show()
 
 def plot_centroid(df, df_with_cluster, title_main):
-    fig, ax = plt.subplots(5, 2, figsize=(13, 15))
+    for i, label in enumerate(df.iloc[0].index):
+        print(f'{label[0:10]}_{i} -> {label}')
+    fig, ax = plt.subplots(5, 2, figsize=(13, 20))
     fig.tight_layout(pad=5.0)
     for i, centroid in df.iterrows():
-        indexes = [str[0:10] for str in centroid.index]
-        sns.barplot(x = indexes, y = centroid.values, hue = indexes, ax = ax[i // 2][i % 2])
+        indexes = [f'{str[0:10]}_{j}' for j, str in enumerate(centroid.index)]
+        sns.barplot(x = centroid.values, y = indexes, hue = indexes, ax = ax[i // 2][i % 2], orient="y")
         title = df_with_cluster[df_with_cluster['Cluster'] == i].index.values.tolist()
+        ax[i // 2][i % 2].set_xlim([0, 1])
         ax[i // 2][i % 2].title.set_text(f"Cluster {i + 1} - {', '.join(title)[0:30]}...")
     fig.suptitle(f'Cetnroids summary: {title_main}')
     fig.show()
